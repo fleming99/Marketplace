@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" media="all" href="../../static/css/style.css" th:href="@{/css/style.css}">
+        <title>Cart Items - Marketplace Online</title>
+
+    </head>
+
+    <body>
+
+        <th:block th:insert="~{layout.html :: header}"></th:block>
+
+
+        <div class="container rounded m-5 p-3 bg-white" style="opacity: 0.9">
+
+            <h2>Cart Items List</h2>
+
+            <hr>
+
+            <table class="table table-striped table-hover table-bordered border-dark">
+
+                <thead>
+                    <tr>
+                        <th>Cart Id</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Subtotal</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <thead>
+                    <tr th:each="tempCartItem : ${cartItems}">
+                        <td th:text="${tempCartItem.cart.getCartId()}"></td>
+                        <td th:text="${tempCartItem.product.getProductName()}"></td>
+                        <td th:text="${tempCartItem.itemQuantity}"></td>
+                        <td th:text="${tempCartItem.unitPrice}"></td>
+                        <td th:text="${tempCartItem.subtotal}"></td>
+                        <td>
+                            <a th:href="@{/cart-items/update-cart(cartItemId=${tempCartItem.cartItemId})}" class="btn btn-primary btn-sm m-1">Update</a>
+                            <a th:href="@{/cart-items/delete-cart(cartItemId=${tempCartItem.cartItemId})}" class="btn btn-danger btn-sm m-1"
+                               onclick="if (!(confirm('Are you sure you want to delete this cart item?'))) return false">Delete</a>
+                        </td>
+                    </tr>
+                </thead>
+
+            </table>
+
+            <hr>
+        </div>
+
+        <th:block th:insert="~{layout.html :: footer}"></th:block>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    </body>
+
+</html>
