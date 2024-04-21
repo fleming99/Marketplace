@@ -30,12 +30,12 @@
                                 <a class="nav-link" th:href="@{/products/products-list}">Products</a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" th:href="@{/categorys/categorys-list}" role="button" data-bs-toggle="dropdown" aria-expanded="true">
-                                    Categorys
+                                <a class="nav-link dropdown-toggle" th:href="@{/categories/categories-list}" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+                                    Categories
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li th:each="tempCategory : ${categories}">
-                                        <a class="dropdown-item" th:text="${tempCategory.categoryName}" th:href="@{/categorys/categorys-list}"></a>
+                                        <a class="dropdown-item" th:text="${tempCategory.categoryName}" th:href="@{/categories/categories-list}"></a>
                                     </li>
                                 </ul>
                             </li>
@@ -43,7 +43,7 @@
                                 <a class="nav-link" aria-current="page" th:href="@{/customers/customers-list}">Customers</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" th:href="@{/companys/companys-list}">Company's</a>
+                                <a class="nav-link" aria-current="page" th:href="@{/companies/companies-list}">Companies</a>
                             </li>
                         </ul>
                         <form class="d-flex" role="search">

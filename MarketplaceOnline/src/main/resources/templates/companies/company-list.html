@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" media="all" href="../../static/css/style.css" th:href="@{/css/style.css}">
-        <title>Carts List - Marketplace Online</title>
+        <title>Companies - Marketplace Online</title>
 
     </head>
 
@@ -18,41 +18,41 @@
 
         <div class="container rounded m-5 p-3 bg-white" style="opacity: 0.9">
 
-            <h2>Carts List</h2>
+            <h2>Companies List</h2>
 
             <hr>
 
             <table class="table table-striped table-hover table-bordered border-dark">
 
                 <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Seller</th>
-                        <th>Buyer</th>
-                        <th>Order Date</th>
-                        <th>Amount</th>
-                        <th>Action</th>
-                    </tr>
+                <tr>
+                    <th>Company Name</th>
+                    <th>Trading Name</th>
+                    <th>CNPJ</th>
+                    <th>E-mail</th>
+                    <th>Action</th>
+                </tr>
                 </thead>
 
                 <thead>
-                    <tr th:each="tempCart : ${carts}">
-                        <td th:text="${tempCart..getCartId()}"></td>
-                        <td th:text="${tempCart.seller}"></td>
-                        <td th:text="${tempCart.buyer}"></td>
-                        <td th:text="${tempCart.orderDate}"></td>
-                        <td th:text="${tempCart.cartAmount}"></td>
-                        <td>
-                            <a th:href="@{/carts/update-cart(cartId=${tempCart.cartId})}" class="btn btn-primary btn-sm m-1">Update</a>
-                            <a th:href="@{/carts/delete-cart(cartId=${tempCart.cartId})}" class="btn btn-danger btn-sm m-1"
-                               onclick="if (!(confirm('Are you sure you want to delete this cart?'))) return false">Delete</a>
-                        </td>
-                    </tr>
+                <tr th:each="tempCompany : ${companies}">
+                    <td th:text="${tempCompany.companyName}"></td>
+                    <td th:text="${tempCompany.tradingName}"></td>
+                    <td th:text="${tempCompany.companyCnpj}"></td>
+                    <td th:text="${tempCompany.companyEmail}"></td>
+                    <td>
+                        <a th:href="@{/companies/update-company(companyId=${tempCompany.companyId})}" class="btn btn-primary btn-sm m-1">Update</a>
+                        <a th:href="@{/companies/delete-company(companyId=${tempCompany.companyId})}" class="btn btn-danger btn-sm m-1"
+                           onclick="if (!(confirm('Are you sure you want to delete this company?'))) return false">Delete</a>
+                    </td>
+                </tr>
                 </thead>
 
             </table>
 
             <hr>
+
+            <a class="btn btn-primary" th:href="@{/companies/create-company}">Add Company</a>
 
         </div>
 

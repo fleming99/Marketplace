@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/companys")
+@RequestMapping("/companies")
 public class CompanyController {
 
     private final EntitiesServiceUseCase<Company> companyEntitiesServiceUseCase;
@@ -16,12 +16,12 @@ public class CompanyController {
         this.companyEntitiesServiceUseCase = companyEntitiesServiceUseCase;
     }
 
-    @GetMapping("/companys-list")
+    @GetMapping("/companies-list")
     public String companyList(Model theModel){
 
-        theModel.addAttribute("companys", companyEntitiesServiceUseCase.findAll());
+        theModel.addAttribute("companies", companyEntitiesServiceUseCase.findAll());
 
-        return "companys/company-list";
+        return "companies/company-list";
     }
 
     @GetMapping("/create-company")
@@ -29,7 +29,7 @@ public class CompanyController {
 
         theModel.addAttribute("company", new Company());
 
-        return "companys/create-company";
+        return "companies/create-company";
     }
 
     @PostMapping("/save-company")
@@ -37,7 +37,7 @@ public class CompanyController {
 
         companyEntitiesServiceUseCase.save(company);
 
-        return "redirect:/companys/companys-list";
+        return "redirect:/companies/companies-list";
     }
 
     @GetMapping("/update-company")
@@ -45,7 +45,7 @@ public class CompanyController {
 
         theModel.addAttribute("company", companyEntitiesServiceUseCase.findById(theId));
 
-        return "companys/update-company-form";
+        return "companies/update-company-form";
     }
 
     @GetMapping("/delete-company")
@@ -53,6 +53,6 @@ public class CompanyController {
 
         companyEntitiesServiceUseCase.deleteById(theId);
 
-        return "redirect:/companys/companys-list";
+        return "redirect:/companies/companies-list";
     }
 }

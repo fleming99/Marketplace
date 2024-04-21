@@ -10,7 +10,7 @@ import java.util.List;
 
 @Controller
 @ControllerAdvice
-@RequestMapping("/categorys")
+@RequestMapping("/categories")
 public class CategoryController {
 
     private final EntitiesServiceUseCase<Category> categoryEntitiesServiceUseCase;
@@ -25,12 +25,12 @@ public class CategoryController {
         return categoryEntitiesServiceUseCase.findAll();
     }
 
-    @GetMapping("/categorys-list")
+    @GetMapping("/categories-list")
     public String categoryList(Model theModel){
 
-        theModel.addAttribute("categorys", categoryEntitiesServiceUseCase.findAll());
+        theModel.addAttribute("categories", categoryEntitiesServiceUseCase.findAll());
 
-        return "categorys/category-list";
+        return "categories/category-list";
     }
 
     @GetMapping("/create-category")
@@ -38,7 +38,7 @@ public class CategoryController {
 
         theModel.addAttribute("category", new Category());
 
-        return "categorys/create-category";
+        return "categories/create-category";
     }
 
     @PostMapping("/save-category")
@@ -46,7 +46,7 @@ public class CategoryController {
 
         categoryEntitiesServiceUseCase.save(category);
 
-        return "redirect:/categorys/categorys-list";
+        return "redirect:/categories/categories-list";
     }
 
     @GetMapping("/update-category")
@@ -54,7 +54,7 @@ public class CategoryController {
 
         theModel.addAttribute("category", categoryEntitiesServiceUseCase.findById(theId));
 
-        return "categorys/update-category-form";
+        return "categories/update-category-form";
     }
 
     @GetMapping("/delete-category")
@@ -62,6 +62,6 @@ public class CategoryController {
 
         categoryEntitiesServiceUseCase.deleteById(theId);
 
-        return "redirect:/categorys/categorys-list";
+        return "redirect:/categories/categories-list";
     }
 }
