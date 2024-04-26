@@ -1,7 +1,7 @@
 package com.fleming99.MarketplaceOnline.controllers;
 
 import com.fleming99.MarketplaceOnline.core.entities.EntityAddress;
-import com.fleming99.MarketplaceOnline.core.usecases.EntitiesServiceUseCase;
+import com.fleming99.MarketplaceOnline.core.usecases.EntitiesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/addresses")
 public class EntityAddressController {
 
-    private final EntitiesServiceUseCase<EntityAddress> entityAddressEntitiesServiceUseCase;
+    private final EntitiesService<EntityAddress> entityAddressEntitiesService;
 
-    public EntityAddressController(EntitiesServiceUseCase<EntityAddress> entityAddressEntitiesServiceUseCase) {
-        this.entityAddressEntitiesServiceUseCase = entityAddressEntitiesServiceUseCase;
+    public EntityAddressController(EntitiesService<EntityAddress> entityAddressEntitiesService) {
+        this.entityAddressEntitiesService = entityAddressEntitiesService;
     }
 
     @GetMapping("/addresses-list")
     public String addressesList(Model theModel){
 
-        theModel.addAttribute("addresses", entityAddressEntitiesServiceUseCase.findAll());
+        theModel.addAttribute("addresses", entityAddressEntitiesService.findAll());
 
         return "addresses/address-list";
     }
@@ -35,7 +35,7 @@ public class EntityAddressController {
     @PostMapping("/save-address")
     public String saveAddress(@ModelAttribute("address") EntityAddress entityAddress){
 
-        entityAddressEntitiesServiceUseCase.save(entityAddress);
+        entityAddressEntitiesService.save(entityAddress);
 
         return "redirect:/addresses/addresses-list";
     }
@@ -43,7 +43,7 @@ public class EntityAddressController {
     @GetMapping("/update-address")
     public String updateAddress(@RequestParam("addressId") int theId, Model theModel){
 
-        theModel.addAttribute("address", entityAddressEntitiesServiceUseCase.findById(theId));
+        theModel.addAttribute("address", entityAddressEntitiesService.findById(theId));
 
         return "addresses/update-address-form";
     }
@@ -51,7 +51,7 @@ public class EntityAddressController {
     @GetMapping("/delete-address")
     public String deleteAddress(@RequestParam("addressId") int theId){
 
-        entityAddressEntitiesServiceUseCase.deleteById(theId);
+        entityAddressEntitiesService.deleteById(theId);
 
         return "redirect:/addresses/addresses-list";
     }

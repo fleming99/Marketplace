@@ -2,7 +2,7 @@ package com.fleming99.MarketplaceOnline.application;
 
 import com.fleming99.MarketplaceOnline.adapters.CartItemRepository;
 import com.fleming99.MarketplaceOnline.core.entities.CartItem;
-import com.fleming99.MarketplaceOnline.core.usecases.EntitiesServiceUseCase;
+import com.fleming99.MarketplaceOnline.core.usecases.EntitiesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CartItemServiceImpl implements EntitiesServiceUseCase<CartItem> {
+public class CartItemServiceImpl implements EntitiesService<CartItem> {
 
     private final CartItemRepository cartItemRepository;
 

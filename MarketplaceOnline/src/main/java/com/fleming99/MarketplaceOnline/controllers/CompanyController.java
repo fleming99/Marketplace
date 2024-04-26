@@ -1,7 +1,7 @@
 package com.fleming99.MarketplaceOnline.controllers;
 
 import com.fleming99.MarketplaceOnline.core.entities.Company;
-import com.fleming99.MarketplaceOnline.core.usecases.EntitiesServiceUseCase;
+import com.fleming99.MarketplaceOnline.core.usecases.EntitiesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/companies")
 public class CompanyController {
 
-    private final EntitiesServiceUseCase<Company> companyEntitiesServiceUseCase;
+    private final EntitiesService<Company> companyEntitiesService;
 
-    public CompanyController(EntitiesServiceUseCase<Company> companyEntitiesServiceUseCase) {
-        this.companyEntitiesServiceUseCase = companyEntitiesServiceUseCase;
+    public CompanyController(EntitiesService<Company> companyEntitiesService) {
+        this.companyEntitiesService = companyEntitiesService;
     }
 
     @GetMapping("/companies-list")
     public String companyList(Model theModel){
 
-        theModel.addAttribute("companies", companyEntitiesServiceUseCase.findAll());
+        theModel.addAttribute("companies", companyEntitiesService.findAll());
 
         return "companies/company-list";
     }
@@ -35,7 +35,7 @@ public class CompanyController {
     @PostMapping("/save-company")
     public String saveCompany(@ModelAttribute("company") Company company){
 
-        companyEntitiesServiceUseCase.save(company);
+        companyEntitiesService.save(company);
 
         return "redirect:/companies/companies-list";
     }
@@ -43,7 +43,7 @@ public class CompanyController {
     @GetMapping("/update-company")
     public String updateCompany(@RequestParam("companyId") int theId, Model theModel){
 
-        theModel.addAttribute("company", companyEntitiesServiceUseCase.findById(theId));
+        theModel.addAttribute("company", companyEntitiesService.findById(theId));
 
         return "companies/update-company-form";
     }
@@ -51,7 +51,7 @@ public class CompanyController {
     @GetMapping("/delete-company")
     public String deleteCompany(@RequestParam("companyId") int theId){
 
-        companyEntitiesServiceUseCase.deleteById(theId);
+        companyEntitiesService.deleteById(theId);
 
         return "redirect:/companies/companies-list";
     }

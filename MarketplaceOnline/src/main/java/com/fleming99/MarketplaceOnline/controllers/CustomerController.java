@@ -1,25 +1,49 @@
 package com.fleming99.MarketplaceOnline.controllers;
 
 import com.fleming99.MarketplaceOnline.core.entities.Customer;
-import com.fleming99.MarketplaceOnline.core.usecases.EntitiesServiceUseCase;
+import com.fleming99.MarketplaceOnline.core.usecases.EntitiesService;
+import com.fleming99.MarketplaceOnline.core.usecases.UserService;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/customers")
 public class CustomerController {
 
-    private final EntitiesServiceUseCase<Customer> customerEntitiesServiceUseCase;
+    private final EntitiesService<Customer> customerEntitiesService;
 
-    public CustomerController(EntitiesServiceUseCase<Customer> customerEntitiesServiceUseCase) {
-        this.customerEntitiesServiceUseCase = customerEntitiesServiceUseCase;
+    private final UserService userService;
+
+    private final Logger logger =Logger.getLogger(getClass().getName());
+
+    @Autowired
+    public CustomerController(EntitiesService<Customer> customerEntitiesService, UserService userService) {
+        this.customerEntitiesService = customerEntitiesService;
+        this.userService = userService;
     }
+
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder) {
+
+        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+
+        dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+    }
+
 
     @GetMapping("/customers-list")
     public String customerList(Model theModel){
 
-        theModel.addAttribute("customers", customerEntitiesServiceUseCase.findAll());
+        theModel.addAttribute("customers", customerEntitiesService.findAll());
 
         return "customers/customer-list";
     }
@@ -33,17 +57,44 @@ public class CustomerController {
     }
 
     @PostMapping("/save-customer")
-    public String saveCustomer(@ModelAttribute("customer") Customer customer){
+    public String saveCustomer(
+            @Valid @ModelAttribute("customer") Customer customer,
+           BindingResult theBindingResult,
+           HttpSession session, Model theModel){
 
-        customerEntitiesServiceUseCase.save(customer);
+        String email = customer.getCustomerEmail();
+        logger.info("Processing registration form for: " + customer.getCustomerFirstName());
 
-        return "redirect:/customers/customers-list";
+        // form validation
+        if (theBindingResult.hasErrors()){
+            return "login-directory/sign-up-page";
+        }
+
+        // check the database if user already exists
+        Customer existing = userService.findByEmail(email);
+        if (existing != null){
+            theModel.addAttribute("customer", new Customer());
+            theModel.addAttribute("registrationError", "User already exists.");
+
+            logger.warning("User already exists.");
+            return "login-directory/sign-up-page";
+        }
+
+        // create user account and store in the databse
+        customerEntitiesService.save(customer);
+
+        logger.info("Successfully created user: " + customer.getCustomerFirstName() + " " + customer.getCustomerLastName());
+
+        // place user in the web http session for later use
+        session.setAttribute("user", customer);
+
+        return "landing-page/home";
     }
 
     @GetMapping("/update-customer")
     public String updateCustomer(@RequestParam("customerId") int theId, Model theModel){
 
-        theModel.addAttribute("customer", customerEntitiesServiceUseCase.findById(theId));
+        theModel.addAttribute("customer", customerEntitiesService.findById(theId));
 
         return "customers/update-customer-form";
     }
@@ -51,7 +102,7 @@ public class CustomerController {
     @GetMapping("/delete-customer")
     public String deleteCustomer(@RequestParam("customerId") int theId){
 
-        customerEntitiesServiceUseCase.deleteById(theId);
+        customerEntitiesService.deleteById(theId);
 
         return "redirect:/customers/customers-list";
     }

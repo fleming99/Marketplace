@@ -1,7 +1,7 @@
 package com.fleming99.MarketplaceOnline.controllers;
 
 import com.fleming99.MarketplaceOnline.core.entities.Category;
-import com.fleming99.MarketplaceOnline.core.usecases.EntitiesServiceUseCase;
+import com.fleming99.MarketplaceOnline.core.usecases.EntitiesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,22 +13,22 @@ import java.util.List;
 @RequestMapping("/categories")
 public class CategoryController {
 
-    private final EntitiesServiceUseCase<Category> categoryEntitiesServiceUseCase;
+    private final EntitiesService<Category> categoryEntitiesService;
 
-    public CategoryController(EntitiesServiceUseCase<Category> categoryEntitiesServiceUseCase) {
-        this.categoryEntitiesServiceUseCase = categoryEntitiesServiceUseCase;
+    public CategoryController(EntitiesService<Category> categoryEntitiesService) {
+        this.categoryEntitiesService = categoryEntitiesService;
     }
 
     @ModelAttribute("categories")
     public List<Category> categoriesList(){
 
-        return categoryEntitiesServiceUseCase.findAll();
+        return categoryEntitiesService.findAll();
     }
 
     @GetMapping("/categories-list")
     public String categoryList(Model theModel){
 
-        theModel.addAttribute("categories", categoryEntitiesServiceUseCase.findAll());
+        theModel.addAttribute("categories", categoryEntitiesService.findAll());
 
         return "categories/category-list";
     }
@@ -44,7 +44,7 @@ public class CategoryController {
     @PostMapping("/save-category")
     public String saveCategory(@ModelAttribute("category") Category category){
 
-        categoryEntitiesServiceUseCase.save(category);
+        categoryEntitiesService.save(category);
 
         return "redirect:/categories/categories-list";
     }
@@ -52,7 +52,7 @@ public class CategoryController {
     @GetMapping("/update-category")
     public String updateCategory(@RequestParam("categoryId") int theId, Model theModel){
 
-        theModel.addAttribute("category", categoryEntitiesServiceUseCase.findById(theId));
+        theModel.addAttribute("category", categoryEntitiesService.findById(theId));
 
         return "categories/update-category-form";
     }
@@ -60,7 +60,7 @@ public class CategoryController {
     @GetMapping("/delete-category")
     public String deleteCategory(@RequestParam("categoryId") int theId){
 
-        categoryEntitiesServiceUseCase.deleteById(theId);
+        categoryEntitiesService.deleteById(theId);
 
         return "redirect:/categories/categories-list";
     }

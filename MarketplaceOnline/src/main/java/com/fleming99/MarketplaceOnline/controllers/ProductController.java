@@ -2,7 +2,7 @@ package com.fleming99.MarketplaceOnline.controllers;
 
 import com.fleming99.MarketplaceOnline.core.entities.Category;
 import com.fleming99.MarketplaceOnline.core.entities.Product;
-import com.fleming99.MarketplaceOnline.core.usecases.EntitiesServiceUseCase;
+import com.fleming99.MarketplaceOnline.core.usecases.EntitiesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,18 +13,18 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
 
-    private final EntitiesServiceUseCase<Category> categoryEntitiesServiceUseCase;
-    private final EntitiesServiceUseCase<Product> productEntitiesServiceUseCase;
+    private final EntitiesService<Category> categoryEntitiesService;
+    private final EntitiesService<Product> productEntitiesService;
 
-    public ProductController(EntitiesServiceUseCase<Product> productEntitiesServiceUseCase, EntitiesServiceUseCase<Category> categoryEntitiesServiceUseCase) {
-        this.productEntitiesServiceUseCase = productEntitiesServiceUseCase;
-        this.categoryEntitiesServiceUseCase = categoryEntitiesServiceUseCase;
+    public ProductController(EntitiesService<Product> productEntitiesService, EntitiesService<Category> categoryEntitiesService) {
+        this.productEntitiesService = productEntitiesService;
+        this.categoryEntitiesService = categoryEntitiesService;
     }
 
     @GetMapping("/products-list")
     public String productsList(Model theModel){
 
-        theModel.addAttribute("products", productEntitiesServiceUseCase.findAll());
+        theModel.addAttribute("products", productEntitiesService.findAll());
 
         return "products/product-list";
     }
@@ -32,7 +32,7 @@ public class ProductController {
     @GetMapping("/create-product")
     public String createProduct(Model theModel){
 
-        List<Category> listCategories = categoryEntitiesServiceUseCase.findAll();
+        List<Category> listCategories = categoryEntitiesService.findAll();
 
         theModel.addAttribute("product", new Product());
         theModel.addAttribute("listCategories", listCategories);
@@ -43,7 +43,7 @@ public class ProductController {
     @PostMapping("/save-product")
     public String saveProduct(@ModelAttribute("product") Product product){
 
-        productEntitiesServiceUseCase.save(product);
+        productEntitiesService.save(product);
 
         return "redirect:/products/products-list";
     }
@@ -51,7 +51,7 @@ public class ProductController {
     @GetMapping("/update-product")
     public String updateProduct(@RequestParam("productId") int theId, Model theModel){
 
-        theModel.addAttribute("product", productEntitiesServiceUseCase.findById(theId));
+        theModel.addAttribute("product", productEntitiesService.findById(theId));
 
         return "products/update-product-form";
     }
@@ -59,7 +59,7 @@ public class ProductController {
     @GetMapping("/delete-product")
     public String deleteProduct(@RequestParam("productId") int theId){
 
-        productEntitiesServiceUseCase.deleteById(theId);
+        productEntitiesService.deleteById(theId);
 
         return "redirect:/products/products-list";
     }

@@ -1,7 +1,7 @@
 package com.fleming99.MarketplaceOnline.controllers;
 
 import com.fleming99.MarketplaceOnline.core.entities.CartItem;
-import com.fleming99.MarketplaceOnline.core.usecases.EntitiesServiceUseCase;
+import com.fleming99.MarketplaceOnline.core.usecases.EntitiesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/cart-items")
 public class CartItemController {
 
-    private final EntitiesServiceUseCase<CartItem> cartItemEntitiesServiceUseCase;
+    private final EntitiesService<CartItem> cartItemEntitiesService;
 
-    public CartItemController(EntitiesServiceUseCase<CartItem> cartItemEntitiesServiceUseCase) {
-        this.cartItemEntitiesServiceUseCase = cartItemEntitiesServiceUseCase;
+    public CartItemController(EntitiesService<CartItem> cartItemEntitiesService) {
+        this.cartItemEntitiesService = cartItemEntitiesService;
     }
 
     @GetMapping("/cart-items-list")
     public String cartItemsList(Model theModel){
 
-        theModel.addAttribute("cartItems", cartItemEntitiesServiceUseCase.findAll());
+        theModel.addAttribute("cartItems", cartItemEntitiesService.findAll());
 
         return "cart-items/cart-item-list";
     }
@@ -35,7 +35,7 @@ public class CartItemController {
     @PostMapping("/save-cart-item")
     public String saveCartItem(@ModelAttribute("cart-item") CartItem cartItem){
 
-        cartItemEntitiesServiceUseCase.save(cartItem);
+        cartItemEntitiesService.save(cartItem);
 
         return "redirect:/cart-items/cart-items-list";
     }
@@ -43,7 +43,7 @@ public class CartItemController {
     @GetMapping("/update-cart-item")
     public String updateCartItem(@RequestParam("cartItemId") int theId, Model theModel){
 
-        theModel.addAttribute("cart-item", cartItemEntitiesServiceUseCase.findById(theId));
+        theModel.addAttribute("cart-item", cartItemEntitiesService.findById(theId));
 
         return "cart-items/update-cart-item-form";
     }
@@ -51,7 +51,7 @@ public class CartItemController {
     @GetMapping("/delete-cart-item")
     public String deleteCartItem(@RequestParam("cartItemId") int theId){
 
-        cartItemEntitiesServiceUseCase.deleteById(theId);
+        cartItemEntitiesService.deleteById(theId);
 
         return "redirect:/cart-items/cart-items-list";
     }

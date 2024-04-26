@@ -1,7 +1,7 @@
 package com.fleming99.MarketplaceOnline.controllers;
 
 import com.fleming99.MarketplaceOnline.core.entities.CartDetails;
-import com.fleming99.MarketplaceOnline.core.usecases.EntitiesServiceUseCase;
+import com.fleming99.MarketplaceOnline.core.usecases.EntitiesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/carts")
 public class CartDetailsController {
 
-    private final EntitiesServiceUseCase<CartDetails> cartDetailsEntitiesServiceUseCase;
+    private final EntitiesService<CartDetails> cartDetailsEntitiesService;
 
-    public CartDetailsController(EntitiesServiceUseCase<CartDetails> cartDetailsEntitiesServiceUseCase) {
-        this.cartDetailsEntitiesServiceUseCase = cartDetailsEntitiesServiceUseCase;
+    public CartDetailsController(EntitiesService<CartDetails> cartDetailsEntitiesService) {
+        this.cartDetailsEntitiesService = cartDetailsEntitiesService;
     }
 
     @GetMapping("/carts-list")
     public String cartList(Model theModel){
 
-        theModel.addAttribute("carts", cartDetailsEntitiesServiceUseCase.findAll());
+        theModel.addAttribute("carts", cartDetailsEntitiesService.findAll());
 
         return "carts/cart-list";
     }
@@ -35,7 +35,7 @@ public class CartDetailsController {
     @PostMapping("/save-cart")
     public String saveCart(@ModelAttribute("cart") CartDetails cartDetails){
 
-        cartDetailsEntitiesServiceUseCase.save(cartDetails);
+        cartDetailsEntitiesService.save(cartDetails);
 
         return "redirect:/carts/carts-list";
     }
@@ -43,7 +43,7 @@ public class CartDetailsController {
     @GetMapping("/update-cart")
     public String updateCart(@RequestParam("cartId") int theId, Model theModel){
 
-        theModel.addAttribute("cart", cartDetailsEntitiesServiceUseCase.findById(theId));
+        theModel.addAttribute("cart", cartDetailsEntitiesService.findById(theId));
 
         return "carts/update-cart-form";
     }
@@ -51,7 +51,7 @@ public class CartDetailsController {
     @GetMapping("/delete-cart")
     public String deleteCart(@RequestParam("cartId") int theId){
 
-        cartDetailsEntitiesServiceUseCase.deleteById(theId);
+        cartDetailsEntitiesService.deleteById(theId);
 
         return "redirect:/carts/carts-list";
     }

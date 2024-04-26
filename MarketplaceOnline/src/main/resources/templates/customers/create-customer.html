@@ -34,6 +34,8 @@
                     <input type="text" th:field="*{customerCpf}" class="form-control mb-3 w-25" required>
                     <label class="form-label">E-mail: *</label>
                     <input type="text" th:field="*{customerEmail}" class="form-control mb-3 w-25" required>
+                    <label class="form-label">Password: *</label>
+                    <input type="password" th:field="*{customerPassword}" class="form-control mb-3 w-25" required>
 
                 </div>
 
@@ -43,7 +45,7 @@
 
             <hr>
 
-            <a th:href="@{/customers/customers-list}" class="">Back to Customers List</a>
+            <a th:href="@{/login}" class="">Back to Log in page</a>
 
         </div>
 

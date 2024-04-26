@@ -1,13 +1,15 @@
 package com.fleming99.MarketplaceOnline.core.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+
+import java.util.Collection;
 
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "customer_details")
 public class Customer {
@@ -26,17 +28,26 @@ public class Customer {
     @Column(name = "customer_email")
     private String customerEmail;
 
+    @Column(name = "customer_password")
+    private String customerPassword;
+
     @Column(name = "customer_cpf")
     private String customerCpf;
 
-    public Customer() {
+    @Column(name = "active_profile")
+    private boolean activeProfile;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "users_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Collection<UserRole> roles;
+
+    public Customer(String customerEmail, String customerPassword, boolean activeProfile, Collection<UserRole> roles){
+        this.customerEmail = customerEmail;
+        this.customerPassword = customerPassword;
+        this.activeProfile = activeProfile;
+        this.roles = roles;
     }
 
-    public Customer(int customerId, String customerFirstName, String customerLastName, String customerEmail, String customerCpf) {
-        this.customerId = customerId;
-        this.customerFirstName = customerFirstName;
-        this.customerLastName = customerLastName;
-        this.customerEmail = customerEmail;
-        this.customerCpf = customerCpf;
-    }
 }
