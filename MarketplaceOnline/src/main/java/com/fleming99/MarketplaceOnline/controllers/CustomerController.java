@@ -1,6 +1,7 @@
 package com.fleming99.MarketplaceOnline.controllers;
 
 import com.fleming99.MarketplaceOnline.core.entities.Customer;
+import com.fleming99.MarketplaceOnline.core.entities.WebUser;
 import com.fleming99.MarketplaceOnline.core.usecases.EntitiesService;
 import com.fleming99.MarketplaceOnline.core.usecases.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -51,44 +52,45 @@ public class CustomerController {
     @GetMapping("/create-customer")
     public String createCustomer(Model theModel){
 
-        theModel.addAttribute("customer", new Customer());
+        theModel.addAttribute("webUser", new WebUser());
 
         return "customers/create-customer";
     }
 
     @PostMapping("/save-customer")
     public String saveCustomer(
-            @Valid @ModelAttribute("customer") Customer customer,
+           @Valid @ModelAttribute("webUser") WebUser webUser,
            BindingResult theBindingResult,
            HttpSession session, Model theModel){
 
-        String email = customer.getCustomerEmail();
-        logger.info("Processing registration form for: " + customer.getCustomerFirstName());
+        String email = webUser.getEmail();
+        logger.info("Processing registration form for: " + webUser.getFirstName() + " " + webUser.getLastName());
 
         // form validation
         if (theBindingResult.hasErrors()){
+            System.out.println(theBindingResult.getAllErrors());
+            System.out.println("teve erros");
             return "login-directory/sign-up-page";
         }
 
         // check the database if user already exists
         Customer existing = userService.findByEmail(email);
         if (existing != null){
-            theModel.addAttribute("customer", new Customer());
+            theModel.addAttribute("webUser", new WebUser());
             theModel.addAttribute("registrationError", "User already exists.");
-
+            System.out.println("Já existe");
             logger.warning("User already exists.");
             return "login-directory/sign-up-page";
+        }else {
+            // create user account and store in the database
+            System.out.println("Não existe");
+            userService.save(webUser);
+
+            // place user in the web http session for later use
+            session.setAttribute("user", webUser);
+
+            return "redirect:/home";
         }
-
-        // create user account and store in the databse
-        customerEntitiesService.save(customer);
-
-        logger.info("Successfully created user: " + customer.getCustomerFirstName() + " " + customer.getCustomerLastName());
-
-        // place user in the web http session for later use
-        session.setAttribute("user", customer);
-
-        return "landing-page/home";
     }
 
     @GetMapping("/update-customer")

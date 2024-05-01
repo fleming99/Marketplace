@@ -38,16 +38,12 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "seller_id")
-    private Customer customer;
-
-    @ManyToOne
-    @JoinColumn(name = "company_id")
     private Company company;
 
     public Product() {
     }
 
-    public Product(int productId, String productName, String productDescription, int productQuantity, double productPrice, boolean productStatus, Category category, Customer customer, Company company) {
+    public Product(int productId, String productName, String productDescription, int productQuantity, double productPrice, boolean productStatus, Category category, Company company) {
         this.productId = productId;
         this.productName = productName;
         this.productDescription = productDescription;
@@ -55,7 +51,6 @@ public class Product {
         this.productPrice = productPrice;
         this.productStatus = productStatus;
         this.category = category;
-        this.customer = customer;
         this.company = company;
     }
 }

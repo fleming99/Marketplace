@@ -22,11 +22,7 @@ public class CartDetails {
 
     @ManyToOne
     @JoinColumn(name = "buyer_id")
-    private Customer buyer;
-
-    @ManyToOne
-    @JoinColumn(name = "seller_id")
-    private Company seller;
+    private Customer buyerId;
 
     @Column(name = "order_date")
     private Date orderDate;

@@ -43,7 +43,7 @@ public class Customer {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<UserRole> roles;
 
-    public Customer(String customerEmail, String customerPassword, boolean activeProfile, Collection<UserRole> roles){
+    public Customer(String customerEmail, String customerPassword, Collection<UserRole> roles, boolean activeProfile){
         this.customerEmail = customerEmail;
         this.customerPassword = customerPassword;
         this.activeProfile = activeProfile;

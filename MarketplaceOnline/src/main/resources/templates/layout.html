@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
     <head>
 
@@ -39,22 +39,36 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" th:href="@{/customers/customers-list}">Customers</a>
+                                <a class="nav-link" aria-current="page" sec:authorize="hasRole('MANAGER') or hasRole('ADMIN')" th:href="@{/customers/customers-list}">Customers</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" th:href="@{/companies/companies-list}">Companies</a>
+                                <a class="nav-link" aria-current="page" sec:authorize="hasRole('MANAGER') or hasRole('ADMIN')" th:href="@{/companies/companies-list}">Companies</a>
                             </li>
                         </ul>
                         <form class="d-flex" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                             <button class="btn btn-outline-success me-5" type="submit">Search</button>
                         </form>
-                        <div>
-                            <a class="btn btn-group btn-success me-3" th:href="@{/login}">Log in</a>
-                        </div>
-                        <div>
-                            <a class="btn btn-group btn-success me-1" th:href="@{/sign-up}">Sign up</a>
-                        </div>
+
+                        <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+
+                            <div class="mt-2">
+                                <h5 class="nav-link me-5">Hello!</h5>
+                            </div>
+
+                            <form th:action="@{/logout}" method="post">
+                                <input class="btn btn-group btn-success" type="submit" value="Logout">
+                            </form>
+                        </th:block>
+
+                        <th:block th:unless="${#authorization.expression('isAuthenticated()')}">
+                            <div>
+                                <a class="btn btn-group btn-success me-3" th:href="@{/login}">Log in</a>
+                            </div>
+                            <div>
+                                <a class="btn btn-group btn-success me-1" th:href="@{/sign-up}">Sign up</a>
+                            </div>
+                        </th:block>
                     </div>
                 </div>
             </nav>

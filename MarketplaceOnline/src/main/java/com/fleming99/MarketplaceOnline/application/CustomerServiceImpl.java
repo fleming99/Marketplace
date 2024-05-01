@@ -3,6 +3,7 @@ package com.fleming99.MarketplaceOnline.application;
 import com.fleming99.MarketplaceOnline.adapters.CustomerRepository;
 import com.fleming99.MarketplaceOnline.core.entities.Customer;
 import com.fleming99.MarketplaceOnline.core.usecases.EntitiesService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

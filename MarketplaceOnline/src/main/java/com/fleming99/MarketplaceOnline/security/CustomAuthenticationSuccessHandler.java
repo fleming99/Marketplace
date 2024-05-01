@@ -9,9 +9,11 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 
+@Controller
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
@@ -23,10 +25,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-
+        
         Customer customer = userService.findByEmail(authentication.getName());
 
-        HttpSession session =request.getSession();
+        HttpSession session = request.getSession();
         session.setAttribute("user", customer);
 
         response.sendRedirect(request.getContextPath() + "/");

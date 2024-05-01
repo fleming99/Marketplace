@@ -35,6 +35,14 @@ public class EntityAddress {
     @Column(name = "entity_address_country")
     private String entityAddressCountry;
 
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customerId;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company companyId;
+
     public EntityAddress() {
     }
 

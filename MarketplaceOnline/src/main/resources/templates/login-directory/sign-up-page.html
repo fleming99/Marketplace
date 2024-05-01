@@ -18,24 +18,29 @@
 
         <th:block th:insert="~{layout.html :: header}"></th:block>
 
-        <div class="container rounded m-5 p-3 bg-white" style="opacity: 0.9">
+        <div class="container">
 
-            <h3 class="mb-3">Choose</h3>
+            <div class="float-start w-25 rounded m-5 p-3 bg-white" style="opacity: 0.9; height: 350px;">
 
-            <hr class="mb-3">
+                <h4 class="mb-3 text-center">Create Customer</h4>
 
-            <a class="btn btn-group btn-primary me-1" th:href="@{/customers/create-customer}">Create customer profile</a>
+                <a class="btn btn-group btn-primary  me-1" th:href="@{/customers/create-customer}">Create</a>
 
-            <a class="btn btn-group btn-primary me-1" th:href="@{/companies/create-company}">Create company profile</a>
+            </div>
 
-            <hr>
+            <div class="float-end w-25 rounded m-5 p-3 bg-white" style="opacity: 0.9; height:350px;">
 
-            <a th:href="@{/login}" class="">Back to Login Page</a>
+                <h4 class="mb-3 text-center">Create Company</h4>
+
+                <a class="btn btn-group btn-primary me-1" th:href="@{/companies/create-company}">Create</a>
+
+            </div>
 
         </div>
 
-        <th:block th:insert="~{layout.html :: footer}"></th:block>
-
+        <div class="position-fixed w-100 bottom-0">
+            <th:block th:insert="~{layout.html :: footer}"></th:block>
+        </div>
 
     </body>
 
