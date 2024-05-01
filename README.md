@@ -6,13 +6,12 @@ O Marketplace online é uma plataforma onde os usuários podem cadastrar produto
 
 # Funcionalidades Disponíveis:
 - Cadastro, atualização e exclusão de produtos e suas categorias.
-- Login e Sign Up de clientes (customers).
+- Login e Sign Up de clientes (customers), com validação e regexp para validar o conteúdo do formulário/duplicidade de usuário.
 
 # Funcionalidades Futuras:
 - Processo de compra e venda entre empresas e clientes.
 - Adicionar métodos de pagamento.
-- Adicionar uma tela de login, funções de usuário e funções atreladas ao perfil empresa.
-- Verificações de variáveis como padrão CNPJ, CPF, e evitar suas duplicações.
+- Adicionar uma tela de login para empresas, e funções atreladas à este perfil.
 - Montagem e gerenciamento do carrinho de compras.
 - Tratamento de exceções.
 
