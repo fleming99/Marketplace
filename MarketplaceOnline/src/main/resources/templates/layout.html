@@ -53,7 +53,7 @@
                         <th:block th:if="${#authorization.expression('isAuthenticated()')}">
 
                             <div class="mt-2">
-                                <h5 class="nav-link me-5">Hello!</h5>
+                                <h5 class="nav-link me-5">Hello! You're authenticated!</h5>
                             </div>
 
                             <form th:action="@{/logout}" method="post">

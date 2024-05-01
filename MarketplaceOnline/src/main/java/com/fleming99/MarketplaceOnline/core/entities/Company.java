@@ -1,13 +1,15 @@
 package com.fleming99.MarketplaceOnline.core.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+
+import java.util.Collection;
 
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "company_details")
 public class Company {
@@ -29,14 +31,15 @@ public class Company {
     @Column(name = "company_cnpj")
     private String companyCnpj;
 
-    public Company() {
-    }
+    @Column(name = "company_password")
+    private String companyPassword;
 
-    public Company(int companyId, String companyName, String tradingName, String companyEmail, String companyCnpj) {
-        this.companyId = companyId;
-        this.companyName = companyName;
-        this.tradingName = tradingName;
-        this.companyEmail = companyEmail;
-        this.companyCnpj = companyCnpj;
-    }
+    @Column(name = "active_profile")
+    private boolean activeProfile;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "company_role",
+            joinColumns = @JoinColumn(name = "company_details_company_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Collection<UserRole> roles;
 }

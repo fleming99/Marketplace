@@ -1,12 +1,12 @@
 package com.fleming99.MarketplaceOnline.core.usecases;
 
 import com.fleming99.MarketplaceOnline.core.entities.Customer;
-import com.fleming99.MarketplaceOnline.core.entities.WebUser;
+import com.fleming99.MarketplaceOnline.core.validation.WebUser;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface UserService extends UserDetailsService {
+public interface UserService<T, U> extends UserDetailsService {
 
-    Customer findByEmail(String email);
+    T findByEmail(String email);
 
-    void save(WebUser webUser);
+    void save(U webUser);
 }

@@ -2,6 +2,7 @@ package com.fleming99.MarketplaceOnline.controllers;
 
 import com.fleming99.MarketplaceOnline.core.entities.Company;
 import com.fleming99.MarketplaceOnline.core.usecases.EntitiesService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ public class CompanyController {
 
     private final EntitiesService<Company> companyEntitiesService;
 
+    @Autowired
     public CompanyController(EntitiesService<Company> companyEntitiesService) {
         this.companyEntitiesService = companyEntitiesService;
     }
@@ -33,11 +35,11 @@ public class CompanyController {
     }
 
     @PostMapping("/save-company")
-    public String saveCompany(@ModelAttribute("company") Company company){
+    public String saveCompany(Company company){
 
         companyEntitiesService.save(company);
 
-        return "redirect:/companies/companies-list";
+        return "redirect:/companies/company-list";
     }
 
     @GetMapping("/update-company")

@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 @Configuration
 @EnableWebSecurity
-public class LoginSecurityConfig{
+public class LoginSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity, AuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception{
@@ -45,11 +45,10 @@ public class LoginSecurityConfig{
         return new BCryptPasswordEncoder();
     }
 
-    public DaoAuthenticationProvider authenticationProvider (UserServiceImpl userService){
+    public DaoAuthenticationProvider authenticationProvider (UserService userService){
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
         auth.setUserDetailsService(userService);
         auth.setPasswordEncoder(passwordEncoder());
         return auth;
     }
-
 }

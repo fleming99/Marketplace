@@ -1,7 +1,7 @@
 package com.fleming99.MarketplaceOnline.controllers;
 
 import com.fleming99.MarketplaceOnline.core.entities.Customer;
-import com.fleming99.MarketplaceOnline.core.entities.WebUser;
+import com.fleming99.MarketplaceOnline.core.validation.WebUser;
 import com.fleming99.MarketplaceOnline.core.usecases.EntitiesService;
 import com.fleming99.MarketplaceOnline.core.usecases.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -22,7 +22,7 @@ public class CustomerController {
 
     private final EntitiesService<Customer> customerEntitiesService;
 
-    private final UserService userService;
+    private final UserService<Customer, WebUser> userService;
 
     private final Logger logger =Logger.getLogger(getClass().getName());
 
@@ -66,11 +66,13 @@ public class CustomerController {
         String email = webUser.getEmail();
         logger.info("Processing registration form for: " + webUser.getFirstName() + " " + webUser.getLastName());
 
+        System.out.println("Debug: " + theBindingResult);
+
         // form validation
         if (theBindingResult.hasErrors()){
             System.out.println(theBindingResult.getAllErrors());
             System.out.println("teve erros");
-            return "login-directory/sign-up-page";
+            return "customers/create-customer";
         }
 
         // check the database if user already exists
@@ -78,9 +80,8 @@ public class CustomerController {
         if (existing != null){
             theModel.addAttribute("webUser", new WebUser());
             theModel.addAttribute("registrationError", "User already exists.");
-            System.out.println("Já existe");
             logger.warning("User already exists.");
-            return "login-directory/sign-up-page";
+            return "customers/create-customer";
         }else {
             // create user account and store in the database
             System.out.println("Não existe");

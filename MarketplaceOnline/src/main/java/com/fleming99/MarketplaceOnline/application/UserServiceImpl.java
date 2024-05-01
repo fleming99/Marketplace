@@ -2,7 +2,7 @@ package com.fleming99.MarketplaceOnline.application;
 
 import com.fleming99.MarketplaceOnline.core.entities.Customer;
 import com.fleming99.MarketplaceOnline.core.entities.UserRole;
-import com.fleming99.MarketplaceOnline.core.entities.WebUser;
+import com.fleming99.MarketplaceOnline.core.validation.WebUser;
 import com.fleming99.MarketplaceOnline.core.usecases.EntitiesService;
 import com.fleming99.MarketplaceOnline.core.usecases.EntityDao;
 import com.fleming99.MarketplaceOnline.core.usecases.RoleDao;
@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService<Customer, WebUser> {
 
     private final EntitiesService<Customer> customerEntitiesService;
     private final EntityDao<Customer> customerEntityDao;

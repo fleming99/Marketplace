@@ -12,6 +12,7 @@ public class RoleDaoImpl implements RoleDao {
 
     private final EntityManager entityManager;
 
+    @Autowired
     public RoleDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }

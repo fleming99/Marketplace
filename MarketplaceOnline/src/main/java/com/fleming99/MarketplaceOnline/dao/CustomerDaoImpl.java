@@ -13,6 +13,7 @@ public class CustomerDaoImpl implements EntityDao<Customer> {
 
     private final EntityManager entityManager;
 
+    @Autowired
     public CustomerDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }

@@ -49,5 +49,4 @@ public class Customer {
         this.activeProfile = activeProfile;
         this.roles = roles;
     }
-
 }

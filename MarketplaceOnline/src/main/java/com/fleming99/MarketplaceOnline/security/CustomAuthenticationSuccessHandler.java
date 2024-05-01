@@ -2,6 +2,7 @@ package com.fleming99.MarketplaceOnline.security;
 
 import com.fleming99.MarketplaceOnline.core.entities.Customer;
 import com.fleming99.MarketplaceOnline.core.usecases.UserService;
+import com.fleming99.MarketplaceOnline.core.validation.WebUser;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,19 +18,20 @@ import java.io.IOException;
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-   private final UserService userService;
+   private final UserService<Customer, WebUser> userService;
 
-    public CustomAuthenticationSuccessHandler(UserService userService) {
+
+    public CustomAuthenticationSuccessHandler(UserService<Customer, WebUser> userService) {
         this.userService = userService;
     }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        
-        Customer customer = userService.findByEmail(authentication.getName());
+
+        var user = userService.findByEmail(authentication.getName());
 
         HttpSession session = request.getSession();
-        session.setAttribute("user", customer);
+        session.setAttribute("user", user);
 
         response.sendRedirect(request.getContextPath() + "/");
     }
